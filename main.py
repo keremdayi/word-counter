@@ -29,6 +29,7 @@
 
 import argparse
 import operator
+from googletrans import Translator
 
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ,'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 upper_case_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P','Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ,'Z']
@@ -49,6 +50,8 @@ def is_included(char, arr):
 	return False
 
 def run():
+
+	translator = Translator()
 
 	parser = argparse.ArgumentParser()
 	# the --file argument is for the file name, if you don't want to change the file name or type you can use this arg
@@ -97,7 +100,8 @@ def run():
 		for i in range(len(sorted_dict)):
 			# we want it written from high to low that's why the index is len(sorted_dict) - 1 - i
 			key, value = sorted_dict[len(sorted_dict) - 1 - i]
-			counts.write(key + ': ' + str(value)+ '\n')
+			counts.write(key + ': ' + str(value)+ ' trans= ' + translator.translate(key, dest='tr').text + '\n')
+		#	counts.write(key + ': ' + str(value)+ '\n')
 
 		# for unsorted print use this 	
 		# for key, value in word_counts.items():
