@@ -33,6 +33,7 @@ import operator
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' ,'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 upper_case_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P','Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ,'Z']
 
+separators = [' ', '\n', ',', ';', ':', '.', '/']
 
 def add_to_dict(word, dict):
 	try:
@@ -65,29 +66,32 @@ def run():
 		word = ''
 
 		while True:
-			# reads a single character
-			char = file.read(1)
+			try:
+				# reads a single character
+				char = file.read(1)
 			
-			if char == ' ' or char == '\n':
-				# if the word is empty don't add it to the list
-				if not word == '':	
-					add_to_dict(word, word_counts)
-					word = ''
+				if is_included(char, separators):
+					# if the word is empty don't add it to the list
+					if word != '':	
+						add_to_dict(word, word_counts)
+						word = ''
 
-			elif(is_included(char, letters)):
-				# if the char is lowercase then appends it to the word
-				word += char
+				elif(is_included(char, letters)):
+					# if the char is lowercase then appends it to the word
+					word += char
 
-			elif(is_included(char, upper_case_letters)):
-				# if the char is uppercase letter then turns it into a lowercase then appends it
-				lowercase = letters[upper_case_letters.index(char)]
-				word += lowercase
+				elif(is_included(char, upper_case_letters)):
+					# if the char is uppercase letter then turns it into a lowercase then appends it
+					lowercase = letters[upper_case_letters.index(char)]
+					word += lowercase
 
-			if not char:
-				# adds the last word to the dictionary
-				if not word == '':	
-					add_to_dict(word, word_counts)
-				break
+				if not char:
+					# adds the last word to the dictionary
+					if not word == '':	
+						add_to_dict(word, word_counts)
+					break
+			except:
+				pass
 
 	# puts the dictionary into an array then sorts it (from low to high)
 	sorted_dict = sorted(word_counts.items(), key = operator.itemgetter(1))
